@@ -60,6 +60,17 @@ default_region = "us-central1"
 
 
 /* ----------------------------------------
+    Specific to github_bootstrap module
+   ---------------------------------------- */
+#github_repos = {
+#  "bootstrap" = "REPLACE_ME"
+#  "org"       = "REPLACE_ME"
+#  "env"       = "REPLACE_ME"
+#  "net"       = "REPLACE_ME"
+#  "project"   = "REPLACE_ME"
+#}
+
+/* ----------------------------------------
     Specific to jenkins_bootstrap module
    ---------------------------------------- */
 // Un-comment the jenkins_bootstrap module and its outputs if you want to use Jenkins instead of Cloud Build

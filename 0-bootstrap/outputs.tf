@@ -51,15 +51,15 @@ output "gcs_bucket_tfstate" {
 
 output "common_config" {
   description = "Common configuration data to be used in other steps."
-  value = {
-    org_id                = var.org_id,
-    parent_folder         = var.parent_folder,
-    billing_account       = var.billing_account,
-    default_region        = var.default_region,
-    project_prefix        = var.project_prefix,
-    folder_prefix         = var.folder_prefix
-    parent_id             = local.parent
-    bootstrap_folder_name = google_folder.bootstrap.name
+  value       = {
+	org_id                = var.org_id,
+	parent_folder         = var.parent_folder,
+	billing_account       = var.billing_account,
+	default_region        = var.default_region,
+	project_prefix        = var.project_prefix,
+	folder_prefix         = var.folder_prefix
+	parent_id             = local.parent
+	bootstrap_folder_name = google_folder.bootstrap.name
   }
 }
 
@@ -94,12 +94,16 @@ output "cloudbuild_project_id" {
 
 output "gcs_bucket_cloudbuild_artifacts" {
   description = "Bucket used to store Cloud/Build artifacts in CloudBuild project."
-  value       = { for key, value in module.tf_workspace : key => replace(value.artifacts_bucket, local.bucket_self_link_prefix, "") }
+  value       = {
+	for key, value in module.tf_workspace : key =>replace(value.artifacts_bucket, local.bucket_self_link_prefix, "")
+  }
 }
 
 output "gcs_bucket_cloudbuild_logs" {
   description = "Bucket used to store Cloud/Build logs in CloudBuild project."
-  value       = { for key, value in module.tf_workspace : key => replace(value.logs_bucket, local.bucket_self_link_prefix, "") }
+  value       = {
+	for key, value in module.tf_workspace : key =>replace(value.logs_bucket, local.bucket_self_link_prefix, "")
+  }
 }
 
 output "projects_gcs_bucket_tfstate" {
@@ -114,12 +118,13 @@ output "cloud_builder_artifact_repo" {
 
 output "csr_repos" {
   description = "List of Cloud Source Repos created by the module, linked to Cloud Build triggers."
-  value = { for k, v in module.tf_source.csr_repos : k => {
-    "id"      = v.id,
-    "name"    = v.name,
-    "project" = v.project,
-    "url"     = v.url,
-    }
+  value       = {
+	for k, v in module.tf_source.csr_repos : k => {
+	  id      = v.id,
+	  name    = v.name,
+	  project = v.project,
+	  url     = v.url,
+	}
   }
 }
 
@@ -143,6 +148,14 @@ output "cloud_build_peered_network_id" {
   description = "The ID of the Cloud Build peered network."
   value       = module.tf_private_pool.peered_network_id
 }
+
+/* ----------------------------------------
+    Specific to github_bootstrap module
+   ---------------------------------------- */
+
+#output "wif_provider_name" {
+#  value = module.github_bootstrap.wif_provider_name
+#}
 
 /* ----------------------------------------
     Specific to jenkins_bootstrap module
